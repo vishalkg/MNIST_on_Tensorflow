@@ -18,3 +18,5 @@ Fully Connected Layer 3 | N/A | 10 | No (Logistic Layer)
 
 * Hardware: NVIDIA GeForce 670 Ti OEM
 * Running Time: 6-7 Minutes
+
+dataset.py: for dataset formatting and extract batches of training samples at each iterations.
