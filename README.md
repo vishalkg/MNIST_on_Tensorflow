@@ -22,3 +22,5 @@ Fully Connected Layer 3 | N/A | 10 | No (Logistic Layer)
 dataset.py: for dataset formatting and extract batches of training samples at each iterations.
 
 Validation set is extracted from train.csv only.
+
+Ref: https://github.com/Hvass-Labs/TensorFlow-Tutorials/blob/master/02_Convolutional_Neural_Network.ipynb
