@@ -3,7 +3,7 @@ MNIST_on_Tensorflow
 Data is taken from kaggle having 32000 samples.
 
 * Training Size: 30000
-* Testing Size: 2000
+* Validation Size: 2000
 * Accuracy: 99.3%
 
 Network Configuration | Filter Size | #Filters | Max Pooling/ReLU
@@ -19,4 +19,4 @@ Fully Connected Layer 3 | N/A | 10 | No (Logistic Layer)
 * Hardware: NVIDIA GeForce 670 Ti OEM
 * Running Time: 6-7 Minutes
 
-dataset.py: for dataset formatting and extract batches of training samples at each iterations.
+dataset.py: for dataset formatting and extract batches of training samples at each iterations.  

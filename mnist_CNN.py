@@ -157,13 +157,6 @@ correct_prediction = tf.equal(y_pred_cls, y_true_cls)
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 session = tf.Session()
-'''
-if not exists 'sess.chkp.meta':
-	session.run(tf.global_variables_initializer())
-else:
-	restore_saver =tf.train.import_meta_graph('sess.chkp.meta')
-	restore_saver.restore(session,tf.train.latest_checkpoint('./'))
-'''
 session.run(tf.global_variables_initializer())
 batch_size = 64
 total_iterations = 0
@@ -184,9 +177,6 @@ def optimize(num_iterations):
         session.run(optimizer, feed_dict=feed_dict_train)
 
         if i % 100 == 0:
-            #feed_dict_validate = {x: data.test.images,y_true: data.test.labels}
-            #acc = session.run(accuracy, feed_dict=feed_dict_validate)
-            #data4graph.append((i,acc))
             acc = get_validation_accuracy()
             msg = "Optimization Iteration: {0:>6}, Validation Accuracy: {1:>6.1%}"
             print(msg.format(i+1, acc))
@@ -194,14 +184,8 @@ def optimize(num_iterations):
     total_iterations += num_iterations
 
     end_time = time.time()
-    #f = open('data4graph.txt','w')
-    #for i in range(len(data4graph)):
-    #    f.write(str(data4graph[i])+'\n')
-    #f.close()
     time_dif = end_time - start_time
     print("Time usage: " + str(timedelta(seconds=int(round(time_dif)))))
-    #_saver = tf.train.Saver()
-    #_saver.save(session,"sess.chkp")
 
 # Split the test-set into smaller batches of this size.
 test_batch_size = 250
@@ -223,9 +207,6 @@ def get_validation_accuracy(show_example_errors=False,show_confusion_matrix=Fals
     correct = (cls_true == cls_pred)
     correct_sum = correct.sum()
     acc = float(correct_sum) / num_test
-    #print("- Validation-set:\t{}".format(len(data.validation.labels)))
-    #msg = "Final Accuracy on Validation-Set: {0:.1%} ({1} / {2})"
-    #print(msg.format(acc, correct_sum, num_test))
     return acc
 
 def print_test_accuracy(show_example_errors=False,show_confusion_matrix=False):
@@ -249,34 +230,11 @@ def print_test_accuracy(show_example_errors=False,show_confusion_matrix=False):
     print("- Validation-set:\t{}".format(len(data.validation.labels)))
     msg = "Final Accuracy on Validation-Set: {0:.1%} ({1} / {2})"
     print(msg.format(acc, correct_sum, num_test))
-    #session.close()
-'''
-def make_submission():
-    test_csv = open('test.csv','r').readlines()[1:]
-    num_test = len(test_csv)
-    cls_pred = np.zeros(shape=num_test, dtype=np.int)
-    test_data = np.zeros((len(test_csv),784))
-    for i in range(len(test_csv)):
-        test_data[i] = [float(pixel) for pixel in test_csv[i].split(',')]
-
-    f = open('submission11.csv','w')
-    f.write('imageid,label\n')
-    i = 0
-    while i<len(test_csv):
-        j = min(i+test_batch_size,len(test_csv))
-        images = test[i:j,:]
-        feed_dict = {x: images}
-        cls_pred[i:j] = session.run(y_pred_cls, feed_dict=feed_dict)
-        for i in range(i,j):
-            f.write(str(i+1)+','+str(cls_pred[i])+'\n')
-        i = j
-    f.close()
-'''
+    
 def main():
 	max_iter = 10000
 	optimize(num_iterations=max_iter)
 	print_test_accuracy()
-	#make_submission()
 	
 if __name__=="__main__":
 	main()
